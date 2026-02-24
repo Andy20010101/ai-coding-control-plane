@@ -1,0 +1,22 @@
+name: control-plane-bootstrap
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'kit/**'
+      - 'skills/control-plane-bootstrap/**'
+      - '.github/workflows/control-plane-bootstrap.yml'
+
+jobs:
+  validate-skeleton:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Verify skeleton files exist
+        run: |
+          test -f kit/README.md
+          test -f kit/templates/.gitkeep
+          test -f skills/control-plane-bootstrap/SKILL.md
+          test -f skills/control-plane-bootstrap/assets/templates/.gitkeep
