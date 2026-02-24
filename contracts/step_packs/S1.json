@@ -1,0 +1,392 @@
+{
+  "task_kind": "step",
+  "task_id": "MVP-1",
+  "run_id": "MVP-1_20260224T145454Z_ctrl",
+  "step_id": "S1",
+  "step_title": "Bootstrap minimal kit + control-plane-bootstrap skill + CI skeleton",
+  "step_description": "Create the minimal MVP-1 skeleton by adding kit/, skills/control-plane-bootstrap/, and one CI workflow file, while keeping changes inside strict scope and without dependency or lockfile changes.",
+  "objective": "Generate the MVP-1 S1 minimal skeleton for kit/, skills/control-plane-bootstrap/, and CI in a way that is auditable by StepResult evidence and scope-guard checks.",
+  "phase": "Phase 1 (user-requested) / StepPack dispatch prep",
+  "step_pack_version": "1.0",
+  "controller_role": "Codex B Controller+Judge",
+  "allowed_paths": [
+    "kit/**",
+    "skills/control-plane-bootstrap/**",
+    ".github/workflows/control-plane-bootstrap.yml"
+  ],
+  "forbidden_paths": [
+    ".artifacts/**",
+    "orchestrator/**",
+    "progress/**",
+    "contracts/**",
+    "tests/**",
+    "pyproject.toml",
+    "requirements*.txt",
+    "poetry.lock",
+    "uv.lock",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "yarn.lock"
+  ],
+  "dependency_policy": {
+    "mode": "no-new-dependencies",
+    "allow_new_dependencies": false,
+    "allow_lockfile_changes": false,
+    "allow_dependency_manifest_changes": false,
+    "allow_ci_workflow_changes_in_scope": true,
+    "change_order_required": [
+      "new dependency",
+      "lockfile change",
+      "dependency manifest change",
+      "additional CI workflow files beyond .github/workflows/control-plane-bootstrap.yml"
+    ]
+  },
+  "scope": {
+    "allowed_paths": [
+      "kit/**",
+      "skills/control-plane-bootstrap/**",
+      ".github/workflows/control-plane-bootstrap.yml"
+    ],
+    "forbidden_paths": [
+      ".artifacts/**",
+      "orchestrator/**",
+      "progress/**",
+      "contracts/**",
+      "tests/**",
+      "pyproject.toml",
+      "requirements*.txt",
+      "poetry.lock",
+      "uv.lock",
+      "package.json",
+      "package-lock.json",
+      "pnpm-lock.yaml",
+      "yarn.lock"
+    ],
+    "dependency_policy": {
+      "mode": "no-new-dependencies",
+      "allow_new_dependencies": false,
+      "allow_lockfile_changes": false,
+      "allow_dependency_manifest_changes": false,
+      "allow_ci_workflow_changes_in_scope": true,
+      "change_order_required": [
+        "new dependency",
+        "lockfile change",
+        "dependency manifest change",
+        "additional CI workflow files beyond .github/workflows/control-plane-bootstrap.yml"
+      ]
+    }
+  },
+  "commands": [
+    "rg --files kit skills/control-plane-bootstrap .github/workflows",
+    "python -c '<required verification command from commands_to_run>'",
+    "git status --short",
+    "git diff --name-only",
+    "git add -- kit skills/control-plane-bootstrap .github/workflows/control-plane-bootstrap.yml",
+    "git commit -m \"<cp-exec commit message>\""
+  ],
+  "commands_to_run": [
+    "python -c 'from pathlib import Path; req=[\"kit/README.md\",\"kit/templates/.gitkeep\",\"skills/control-plane-bootstrap/SKILL.md\",\"skills/control-plane-bootstrap/assets/templates/.gitkeep\",\".github/workflows/control-plane-bootstrap.yml\"]; missing=[p for p in req if not Path(p).exists()]; print({\"missing\": missing}); raise SystemExit(1 if missing else 0)'",
+    "python -c 'from pathlib import Path; p=Path(\"kit/README.md\"); t=p.read_text(encoding=\"utf-8\"); ok=(\"kit\" in t.lower() and \"mvp-1\" in t.lower()); print({\"path\": str(p), \"ok\": ok}); raise SystemExit(0 if ok else 1)'",
+    "python -c 'from pathlib import Path; p=Path(\"skills/control-plane-bootstrap/SKILL.md\"); t=p.read_text(encoding=\"utf-8\").lower(); ok=(\"control-plane-bootstrap\" in t and \"use when\" in t); print({\"path\": str(p), \"ok\": ok}); raise SystemExit(0 if ok else 1)'",
+    "python -c 'from pathlib import Path; p=Path(\".github/workflows/control-plane-bootstrap.yml\"); t=p.read_text(encoding=\"utf-8\").lower(); ok=all(s in t for s in [\"name:\",\"on:\",\"jobs:\",\"steps:\",\"runs-on\"]); print({\"path\": str(p), \"ok\": ok}); raise SystemExit(0 if ok else 1)'",
+    "git status --short"
+  ],
+  "AC": [
+    "AC1: kit skeleton exists with kit/README.md and kit/templates/.gitkeep.",
+    "AC2: skills/control-plane-bootstrap skeleton exists with SKILL.md and assets/templates/.gitkeep, and SKILL.md includes purpose + trigger text ('Use when').",
+    "AC3: .github/workflows/control-plane-bootstrap.yml exists and contains a minimal runnable workflow structure (name/on/jobs/steps/runs-on).",
+    "AC4: StepResult evidence is auditable (.artifacts paths, required command records, AC verification records) and all files_changed stay within allowed_paths without forbidden-path or dependency-policy violations."
+  ],
+  "gates": [
+    {
+      "gate_id": "G1",
+      "owner": "worker",
+      "type": "required_command_exit_0",
+      "target_ac": [
+        "AC1",
+        "AC2",
+        "AC3"
+      ],
+      "command_index": 0,
+      "pass_condition": "Existence check command exits 0 with empty missing list."
+    },
+    {
+      "gate_id": "G2",
+      "owner": "worker",
+      "type": "required_command_exit_0",
+      "target_ac": [
+        "AC1"
+      ],
+      "command_index": 1,
+      "pass_condition": "kit/README.md content check exits 0."
+    },
+    {
+      "gate_id": "G3",
+      "owner": "worker",
+      "type": "required_command_exit_0",
+      "target_ac": [
+        "AC2"
+      ],
+      "command_index": 2,
+      "pass_condition": "SKILL.md content check exits 0."
+    },
+    {
+      "gate_id": "G4",
+      "owner": "worker",
+      "type": "required_command_exit_0",
+      "target_ac": [
+        "AC3"
+      ],
+      "command_index": 3,
+      "pass_condition": "CI workflow content check exits 0."
+    },
+    {
+      "gate_id": "G5",
+      "owner": "controller",
+      "type": "qa_scope_guard_review",
+      "target_ac": [
+        "AC4"
+      ],
+      "pass_condition": "step_result.files_changed all match allowed_paths and none match forbidden_paths."
+    },
+    {
+      "gate_id": "G6",
+      "owner": "controller",
+      "type": "qa_evidence_review",
+      "target_ac": [
+        "AC4"
+      ],
+      "pass_condition": "step_result.commands_executed and verification_results evidence_path values are under .artifacts/agent_runs/ and evidence_required files exist."
+    }
+  ],
+  "evidence_required": [
+    {
+      "id": "E1_step_result",
+      "path_pattern": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R*/step_result.json",
+      "required_for": [
+        "AC4"
+      ],
+      "notes": "Canonical worker result payload for controller QA review."
+    },
+    {
+      "id": "E2_shim_stdout",
+      "path_pattern": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R*/shim_stdout.txt",
+      "required_for": [
+        "AC1",
+        "AC2",
+        "AC3",
+        "AC4"
+      ],
+      "notes": "Required command output evidence (commands_to_run) may point here."
+    },
+    {
+      "id": "E3_subagent_output",
+      "path_pattern": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R*/subagent_output.md",
+      "required_for": [
+        "AC1",
+        "AC2",
+        "AC3",
+        "AC4"
+      ],
+      "notes": "Worker summary with changed files and acceptance mapping."
+    },
+    {
+      "id": "E4_command_records",
+      "path_pattern": "step_result.json::commands_executed[*]",
+      "required_for": [
+        "AC4"
+      ],
+      "notes": "Must include command, exit_code, evidence_path for every commands_to_run entry."
+    },
+    {
+      "id": "E5_verification_records",
+      "path_pattern": "step_result.json::verification_results[*]",
+      "required_for": [
+        "AC4"
+      ],
+      "notes": "Must cover every AC string exactly with met=true for PASS."
+    }
+  ],
+  "acceptance": {
+    "AC": [
+      "AC1: kit skeleton exists with kit/README.md and kit/templates/.gitkeep.",
+      "AC2: skills/control-plane-bootstrap skeleton exists with SKILL.md and assets/templates/.gitkeep, and SKILL.md includes purpose + trigger text ('Use when').",
+      "AC3: .github/workflows/control-plane-bootstrap.yml exists and contains a minimal runnable workflow structure (name/on/jobs/steps/runs-on).",
+      "AC4: StepResult evidence is auditable (.artifacts paths, required command records, AC verification records) and all files_changed stay within allowed_paths without forbidden-path or dependency-policy violations."
+    ],
+    "gates": [
+      {
+        "gate_id": "G1",
+        "owner": "worker",
+        "type": "required_command_exit_0",
+        "target_ac": [
+          "AC1",
+          "AC2",
+          "AC3"
+        ],
+        "command_index": 0,
+        "pass_condition": "Existence check command exits 0 with empty missing list."
+      },
+      {
+        "gate_id": "G2",
+        "owner": "worker",
+        "type": "required_command_exit_0",
+        "target_ac": [
+          "AC1"
+        ],
+        "command_index": 1,
+        "pass_condition": "kit/README.md content check exits 0."
+      },
+      {
+        "gate_id": "G3",
+        "owner": "worker",
+        "type": "required_command_exit_0",
+        "target_ac": [
+          "AC2"
+        ],
+        "command_index": 2,
+        "pass_condition": "SKILL.md content check exits 0."
+      },
+      {
+        "gate_id": "G4",
+        "owner": "worker",
+        "type": "required_command_exit_0",
+        "target_ac": [
+          "AC3"
+        ],
+        "command_index": 3,
+        "pass_condition": "CI workflow content check exits 0."
+      },
+      {
+        "gate_id": "G5",
+        "owner": "controller",
+        "type": "qa_scope_guard_review",
+        "target_ac": [
+          "AC4"
+        ],
+        "pass_condition": "step_result.files_changed all match allowed_paths and none match forbidden_paths."
+      },
+      {
+        "gate_id": "G6",
+        "owner": "controller",
+        "type": "qa_evidence_review",
+        "target_ac": [
+          "AC4"
+        ],
+        "pass_condition": "step_result.commands_executed and verification_results evidence_path values are under .artifacts/agent_runs/ and evidence_required files exist."
+      }
+    ],
+    "evidence_required": [
+      {
+        "id": "E1_step_result",
+        "path_pattern": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R*/step_result.json",
+        "required_for": [
+          "AC4"
+        ],
+        "notes": "Canonical worker result payload for controller QA review."
+      },
+      {
+        "id": "E2_shim_stdout",
+        "path_pattern": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R*/shim_stdout.txt",
+        "required_for": [
+          "AC1",
+          "AC2",
+          "AC3",
+          "AC4"
+        ],
+        "notes": "Required command output evidence (commands_to_run) may point here."
+      },
+      {
+        "id": "E3_subagent_output",
+        "path_pattern": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R*/subagent_output.md",
+        "required_for": [
+          "AC1",
+          "AC2",
+          "AC3",
+          "AC4"
+        ],
+        "notes": "Worker summary with changed files and acceptance mapping."
+      },
+      {
+        "id": "E4_command_records",
+        "path_pattern": "step_result.json::commands_executed[*]",
+        "required_for": [
+          "AC4"
+        ],
+        "notes": "Must include command, exit_code, evidence_path for every commands_to_run entry."
+      },
+      {
+        "id": "E5_verification_records",
+        "path_pattern": "step_result.json::verification_results[*]",
+        "required_for": [
+          "AC4"
+        ],
+        "notes": "Must cover every AC string exactly with met=true for PASS."
+      }
+    ]
+  },
+  "runtime_policy": {
+    "timeout_sec": 3600,
+    "no_output_timeout_sec": 1200,
+    "retry": {
+      "max_attempts": 2,
+      "retry_on": [
+        "COMMAND_FAILED"
+      ],
+      "requires_rework_pack_after_failed_attempts": true
+    },
+    "autonomy_level": "L1",
+    "boundary_level": "B1"
+  },
+  "acceptance_criteria": [
+    "AC1: kit skeleton exists with kit/README.md and kit/templates/.gitkeep.",
+    "AC2: skills/control-plane-bootstrap skeleton exists with SKILL.md and assets/templates/.gitkeep, and SKILL.md includes purpose + trigger text ('Use when').",
+    "AC3: .github/workflows/control-plane-bootstrap.yml exists and contains a minimal runnable workflow structure (name/on/jobs/steps/runs-on).",
+    "AC4: StepResult evidence is auditable (.artifacts paths, required command records, AC verification records) and all files_changed stay within allowed_paths without forbidden-path or dependency-policy violations."
+  ],
+  "scope_guard": {
+    "allowed_paths": [
+      "kit/**",
+      "skills/control-plane-bootstrap/**",
+      ".github/workflows/control-plane-bootstrap.yml"
+    ],
+    "forbidden_paths": [
+      ".artifacts/**",
+      "orchestrator/**",
+      "progress/**",
+      "contracts/**",
+      "tests/**",
+      "pyproject.toml",
+      "requirements*.txt",
+      "poetry.lock",
+      "uv.lock",
+      "package.json",
+      "package-lock.json",
+      "pnpm-lock.yaml",
+      "yarn.lock"
+    ]
+  },
+  "expected_outputs": [
+    "Minimal skeleton files created only under kit/**, skills/control-plane-bootstrap/**, and .github/workflows/control-plane-bootstrap.yml",
+    "No dependency or lockfile changes",
+    "StepResult PASS package with auditable evidence under .artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R*/"
+  ],
+  "evidence_requirement": "For each required command and each AC provide command/criteria, exit_code or met flag, and evidence_path under .artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R*/.",
+  "context": {
+    "run_dir": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl",
+    "controller_worktree": "E:/Code/workflow__ctrl",
+    "controller_branch": "cp-ctrl",
+    "controller_head": "f0d3bf2",
+    "target_exec_branch": "cp-exec",
+    "source_instructions": [
+      "CODEX_B_CONTROLLER_JUDGE.md"
+    ]
+  },
+  "allowed_actions": [
+    "create directories/files within allowed_paths",
+    "edit files within allowed_paths",
+    "run commands listed in commands/commands_to_run",
+    "stage and commit changes on execution branch"
+  ]
+}
