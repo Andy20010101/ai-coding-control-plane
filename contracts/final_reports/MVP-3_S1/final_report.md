@@ -33,10 +33,10 @@
 ## Evidence Index
 
 - StepPack (`MVP-3`, local repo): `contracts/step_packs/MVP-3_S1.json`
-- Worker evidence root (source repo): `E:\Code\workflow__exec\.artifactsgent_runs\MVP-3_20260225T013546Z_ctrl\steps\S1ounds\R1`
-- Worker StepResult: `E:\Code\workflow__exec\.artifactsgent_runs\MVP-3_20260225T013546Z_ctrl\steps\S1ounds\R1\step_result.json`
-- Worker shim stdout: `E:\Code\workflow__exec\.artifactsgent_runs\MVP-3_20260225T013546Z_ctrl\steps\S1ounds\R1\shim_stdout.txt`
-- Worker summary: `E:\Code\workflow__exec\.artifactsgent_runs\MVP-3_20260225T013546Z_ctrl\steps\S1ounds\R1\subagent_output.md`
+- Worker evidence root (source repo): `E:\Code\workflow__exec\.artifacts\agent_runs\MVP-3_20260225T013546Z_ctrl\steps\S1\rounds\R1`
+- Worker StepResult: `E:\Code\workflow__exec\.artifacts\agent_runs\MVP-3_20260225T013546Z_ctrl\steps\S1\rounds\R1\step_result.json`
+- Worker shim stdout: `E:\Code\workflow__exec\.artifacts\agent_runs\MVP-3_20260225T013546Z_ctrl\steps\S1\rounds\R1\shim_stdout.txt`
+- Worker summary: `E:\Code\workflow__exec\.artifacts\agent_runs\MVP-3_20260225T013546Z_ctrl\steps\S1\rounds\R1\subagent_output.md`
 - Controller QA review JSON: `contracts/final_reports/MVP-3_S1/qa_reviews/MVP-3_S1_g8_g9_review.json`
 - Controller QA summary JSON: `contracts/final_reports/MVP-3_S1/qa_reviews/summary.json`
 
