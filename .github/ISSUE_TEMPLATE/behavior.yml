@@ -1,0 +1,27 @@
+name: Behavior report
+description: Report an observed behavior gap with evidence and expected behavior.
+title: "[behavior] "
+labels:
+  - behavior
+body:
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: What happened, with concrete symptoms and evidence.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What should happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Logs, artifact paths, run IDs, or screenshots.
+    validations:
+      required: false
