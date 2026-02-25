@@ -1,0 +1,489 @@
+{
+  "generated_by": "controller_g7_g8_review",
+  "cases": [
+    {
+      "label": "MVP-1_S1",
+      "step_pack_path": "contracts/step_packs/S1.json",
+      "step_result_path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/step_result.json",
+      "commit": "02aff4809fb80b72b59d38bea4fbc8a03c1282f2",
+      "g7_scope": {
+        "step_result_files": [
+          ".github/workflows/control-plane-bootstrap.yml",
+          "kit/README.md",
+          "kit/templates/.gitkeep",
+          "skills/control-plane-bootstrap/SKILL.md",
+          "skills/control-plane-bootstrap/assets/templates/.gitkeep"
+        ],
+        "commit_files": [
+          ".github/workflows/control-plane-bootstrap.yml",
+          "kit/README.md",
+          "kit/templates/.gitkeep",
+          "skills/control-plane-bootstrap/SKILL.md",
+          "skills/control-plane-bootstrap/assets/templates/.gitkeep"
+        ],
+        "commit_matches_step_result": true,
+        "scope_checks": [
+          {
+            "file": ".github/workflows/control-plane-bootstrap.yml",
+            "allowed": true,
+            "forbidden_matches": []
+          },
+          {
+            "file": "kit/README.md",
+            "allowed": true,
+            "forbidden_matches": []
+          },
+          {
+            "file": "kit/templates/.gitkeep",
+            "allowed": true,
+            "forbidden_matches": []
+          },
+          {
+            "file": "skills/control-plane-bootstrap/SKILL.md",
+            "allowed": true,
+            "forbidden_matches": []
+          },
+          {
+            "file": "skills/control-plane-bootstrap/assets/templates/.gitkeep",
+            "allowed": true,
+            "forbidden_matches": []
+          }
+        ]
+      },
+      "g8_evidence": {
+        "pattern_results": [
+          {
+            "id": "E1_step_result",
+            "pattern": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R*/step_result.json",
+            "count": 1,
+            "matches": [
+              ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/step_result.json"
+            ]
+          },
+          {
+            "id": "E2_shim_stdout",
+            "pattern": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R*/shim_stdout.txt",
+            "count": 1,
+            "matches": [
+              ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/shim_stdout.txt"
+            ]
+          },
+          {
+            "id": "E3_subagent_output",
+            "pattern": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R*/subagent_output.md",
+            "count": 1,
+            "matches": [
+              ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/subagent_output.md"
+            ]
+          }
+        ],
+        "paths_checked": [
+          {
+            "section": "commands_executed",
+            "index": 0,
+            "label": "python -c 'from pathlib import Path; req=[\"kit/README.md\",\"kit/templates/.gitkeep\",\"skills/control-plane-bootstrap/SKILL.md\",\"skills/control-plane-bootstrap/assets/templates/.gitkeep\",\".github/workflows/control-plane-bootstrap.yml\"]; missing=[p for p in req if not Path(p).exists()]; print({\"missing\": missing}); raise SystemExit(1 if missing else 0)'",
+            "evidence_path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_0_exist_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "commands_executed",
+            "index": 1,
+            "label": "python -c 'from pathlib import Path; p=Path(\"kit/README.md\"); t=p.read_text(encoding=\"utf-8\"); ok=(\"kit\" in t.lower() and \"mvp-1\" in t.lower()); print({\"path\": str(p), \"ok\": ok}); raise SystemExit(0 if ok else 1)'",
+            "evidence_path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_1_kit_readme_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "commands_executed",
+            "index": 2,
+            "label": "python -c 'from pathlib import Path; p=Path(\"skills/control-plane-bootstrap/SKILL.md\"); t=p.read_text(encoding=\"utf-8\").lower(); ok=(\"control-plane-bootstrap\" in t and \"use when\" in t); print({\"path\": str(p), \"ok\": ok}); raise SystemExit(0 if ok else 1)'",
+            "evidence_path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_2_skill_md_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "commands_executed",
+            "index": 3,
+            "label": "python -c 'from pathlib import Path; p=Path(\".github/workflows/control-plane-bootstrap.yml\"); t=p.read_text(encoding=\"utf-8\").lower(); ok=all(s in t for s in [\"name:\",\"on:\",\"jobs:\",\"steps:\",\"runs-on\"]); print({\"path\": str(p), \"ok\": ok}); raise SystemExit(0 if ok else 1)'",
+            "evidence_path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_3_ci_workflow_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "commands_executed",
+            "index": 4,
+            "label": "git status --short",
+            "evidence_path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_4_git_status.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "verification_results",
+            "index": 0,
+            "label": "AC1: kit skeleton exists with kit/README.md and kit/templates/.gitkeep.",
+            "evidence_path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_0_exist_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "verification_results",
+            "index": 1,
+            "label": "AC2: skills/control-plane-bootstrap skeleton exists with SKILL.md and assets/templates/.gitkeep, and SKILL.md includes purpose + trigger text ('Use when').",
+            "evidence_path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_2_skill_md_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "verification_results",
+            "index": 2,
+            "label": "AC3: .github/workflows/control-plane-bootstrap.yml exists and contains a minimal runnable workflow structure (name/on/jobs/steps/runs-on).",
+            "evidence_path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_3_ci_workflow_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "verification_results",
+            "index": 3,
+            "label": "AC4: StepResult evidence is auditable (.artifacts paths, required command records, AC verification records) and all files_changed stay within allowed_paths without forbidden-path or dependency-policy violations.",
+            "evidence_path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/step_result.json",
+            "prefix_ok": true,
+            "exists": true
+          }
+        ],
+        "missing_evidence_paths": [],
+        "invalid_prefix_paths": [],
+        "missing_required_commands": [],
+        "missing_acs": [],
+        "unmet_acs": [],
+        "evidence_map_checks": {
+          "AC1": [
+            {
+              "path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_0_exist_check.stdout.txt",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_1_kit_readme_check.stdout.txt",
+              "exists": true
+            }
+          ],
+          "AC2": [
+            {
+              "path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_0_exist_check.stdout.txt",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_2_skill_md_check.stdout.txt",
+              "exists": true
+            }
+          ],
+          "AC3": [
+            {
+              "path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_0_exist_check.stdout.txt",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/outputs/cmd_3_ci_workflow_check.stdout.txt",
+              "exists": true
+            }
+          ],
+          "AC4": [
+            {
+              "path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/step_result.json",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/shim_stdout.txt",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/subagent_output.md",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-1_20260224T145454Z_ctrl/steps/S1/rounds/R1/logs/command.json",
+              "exists": true
+            }
+          ]
+        }
+      },
+      "verdict": "PASS",
+      "errors": []
+    },
+    {
+      "label": "MVP-2_S1",
+      "step_pack_path": "contracts/step_packs/MVP-2_S1.json",
+      "step_result_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/step_result.json",
+      "commit": "c49d065cd6242a77eb7b51b7800e1083de4b4fc2",
+      "g7_scope": {
+        "step_result_files": [
+          "README.md",
+          ".github/ISSUE_TEMPLATE/behavior.yml",
+          ".github/pull_request_template.md",
+          "docs/workstream/rework_ticket.md",
+          "docs/workstream/orchestrator_pack.md",
+          "evo/00_index.md",
+          "evo/lessons.log"
+        ],
+        "commit_files": [
+          ".github/ISSUE_TEMPLATE/behavior.yml",
+          ".github/pull_request_template.md",
+          "README.md",
+          "docs/workstream/orchestrator_pack.md",
+          "docs/workstream/rework_ticket.md",
+          "evo/00_index.md",
+          "evo/lessons.log"
+        ],
+        "commit_matches_step_result": true,
+        "scope_checks": [
+          {
+            "file": "README.md",
+            "allowed": true,
+            "forbidden_matches": []
+          },
+          {
+            "file": ".github/ISSUE_TEMPLATE/behavior.yml",
+            "allowed": true,
+            "forbidden_matches": []
+          },
+          {
+            "file": ".github/pull_request_template.md",
+            "allowed": true,
+            "forbidden_matches": []
+          },
+          {
+            "file": "docs/workstream/rework_ticket.md",
+            "allowed": true,
+            "forbidden_matches": []
+          },
+          {
+            "file": "docs/workstream/orchestrator_pack.md",
+            "allowed": true,
+            "forbidden_matches": []
+          },
+          {
+            "file": "evo/00_index.md",
+            "allowed": true,
+            "forbidden_matches": []
+          },
+          {
+            "file": "evo/lessons.log",
+            "allowed": true,
+            "forbidden_matches": []
+          }
+        ]
+      },
+      "g8_evidence": {
+        "pattern_results": [
+          {
+            "id": "E1_step_result",
+            "pattern": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R*/step_result.json",
+            "count": 1,
+            "matches": [
+              ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/step_result.json"
+            ]
+          },
+          {
+            "id": "E2_shim_stdout",
+            "pattern": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R*/shim_stdout.txt",
+            "count": 1,
+            "matches": [
+              ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/shim_stdout.txt"
+            ]
+          },
+          {
+            "id": "E3_subagent_output",
+            "pattern": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R*/subagent_output.md",
+            "count": 1,
+            "matches": [
+              ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/subagent_output.md"
+            ]
+          }
+        ],
+        "paths_checked": [
+          {
+            "section": "commands_executed",
+            "index": 0,
+            "label": "python -c 'from pathlib import Path; req=[\"README.md\",\".github/ISSUE_TEMPLATE/behavior.yml\",\".github/pull_request_template.md\",\"docs/workstream/rework_ticket.md\",\"docs/workstream/orchestrator_pack.md\",\"evo/00_index.md\",\"evo/lessons.log\"]; missing=[p for p in req if not Path(p).exists()]; print({\"missing\": missing}); raise SystemExit(1 if missing else 0)'",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_0_exist_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "commands_executed",
+            "index": 1,
+            "label": "python -c 'from pathlib import Path; t=Path(\"README.md\").read_text(encoding=\"utf-8\").lower(); ok=(\"start here\" in t and (\"tier2\" in t or \"tier 2\" in t or \"档位二\" in t) and (\"tier3\" in t or \"tier 3\" in t or \"档位三\" in t) and (\"minimal success path\" in t or \"最小成功路径\" in t)); print({\"path\":\"README.md\",\"ok\":ok}); raise SystemExit(0 if ok else 1)'",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_1_readme_keyword_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "commands_executed",
+            "index": 2,
+            "label": "python -c 'from pathlib import Path; t=Path(\".github/ISSUE_TEMPLATE/behavior.yml\").read_text(encoding=\"utf-8\").lower(); ok=all(s in t for s in [\"name:\",\"description:\",\"body:\"]); print({\"path\":\".github/ISSUE_TEMPLATE/behavior.yml\",\"ok\":ok}); raise SystemExit(0 if ok else 1)'",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_2_issue_template_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "commands_executed",
+            "index": 3,
+            "label": "python -c 'from pathlib import Path; t=Path(\".github/pull_request_template.md\").read_text(encoding=\"utf-8\"); tl=t.lower(); ok=((\"run_id\" in tl or \"run id\" in tl) and (\"contract\" in tl) and ((\"gate summary\" in tl) or (\"gate_summary\" in tl))); print({\"path\":\".github/pull_request_template.md\",\"ok\":ok}); raise SystemExit(0 if ok else 1)'",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_3_pr_template_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "commands_executed",
+            "index": 4,
+            "label": "python -c 'from pathlib import Path; rw=Path(\"docs/workstream/rework_ticket.md\").read_text(encoding=\"utf-8\").lower(); op=Path(\"docs/workstream/orchestrator_pack.md\").read_text(encoding=\"utf-8\").lower(); e0=Path(\"evo/00_index.md\").read_text(encoding=\"utf-8\").lower(); el=Path(\"evo/lessons.log\").read_text(encoding=\"utf-8\"); ok_rw=all(s in rw for s in [\"failed gate\",\"missing evidence\",\"minimal fix list\",\"re-run command\"]); ok_op=(\"fail\" in op and (\"rework ticket\" in op or \"rework\" in op)); ok_e0=(\"evo\" in e0 or \"index\" in e0); ok_el=(len(el.strip())>=0); ok=(ok_rw and ok_op and ok_e0 and ok_el is not None); print({\"rework_ticket\":ok_rw,\"orchestrator_pack\":ok_op,\"evo_index\":ok_e0,\"lessons_log_exists\":True}); raise SystemExit(0 if ok else 1)'",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_4_rework_orchestrator_evo_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "commands_executed",
+            "index": 5,
+            "label": "python -c 'from pathlib import Path; p=Path(\"scripts/verify.sh\"); print({\"scripts_verify_sh_exists\": p.exists(), \"dispatch_note\": \"optional S2 gate preflight only\"})'",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_5_verify_sh_preflight.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "commands_executed",
+            "index": 6,
+            "label": "git status --short",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_6_git_status.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "verification_results",
+            "index": 0,
+            "label": "AC1: `README.md` contains a P0/Start Here entry and includes tier2/tier3 decision guidance plus a minimal success path section (keyword-level objective check).",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_1_readme_keyword_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "verification_results",
+            "index": 1,
+            "label": "AC2: `.github/ISSUE_TEMPLATE/behavior.yml` exists and contains a usable issue template structure (`name:`, `description:`, `body:`).",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_2_issue_template_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "verification_results",
+            "index": 2,
+            "label": "AC3: `.github/pull_request_template.md` exists and prompts for `RUN_ID` (or Run ID), contract reference, and Gate Summary path.",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_3_pr_template_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "verification_results",
+            "index": 3,
+            "label": "AC4: `docs/workstream/rework_ticket.md`, `docs/workstream/orchestrator_pack.md`, `evo/00_index.md`, and `evo/lessons.log` exist; `rework_ticket.md` includes failed gate / missing evidence / minimal fix list / re-run command fields; `orchestrator_pack.md` explicitly states FAIL must go back via rework ticket.",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_4_rework_orchestrator_evo_check.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "verification_results",
+            "index": 4,
+            "label": "AC5: S2 gate preflight evidence is captured by checking `scripts/verify.sh` availability without modifying `scripts/**` in this step (downstream full S2 gate execution remains separate if script is absent).",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_5_verify_sh_preflight.stdout.txt",
+            "prefix_ok": true,
+            "exists": true
+          },
+          {
+            "section": "verification_results",
+            "index": 5,
+            "label": "AC6: StepResult evidence is auditable (.artifacts paths, required command records, AC verification records) and all `files_changed` remain inside `allowed_paths` with no forbidden-path or dependency-policy violations.",
+            "evidence_path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/step_result.json",
+            "prefix_ok": true,
+            "exists": true
+          }
+        ],
+        "missing_evidence_paths": [],
+        "invalid_prefix_paths": [],
+        "missing_required_commands": [],
+        "missing_acs": [],
+        "unmet_acs": [],
+        "evidence_map_checks": {
+          "AC1": [
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_0_exist_check.stdout.txt",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_1_readme_keyword_check.stdout.txt",
+              "exists": true
+            }
+          ],
+          "AC2": [
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_0_exist_check.stdout.txt",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_2_issue_template_check.stdout.txt",
+              "exists": true
+            }
+          ],
+          "AC3": [
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_0_exist_check.stdout.txt",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_3_pr_template_check.stdout.txt",
+              "exists": true
+            }
+          ],
+          "AC4": [
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_0_exist_check.stdout.txt",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_4_rework_orchestrator_evo_check.stdout.txt",
+              "exists": true
+            }
+          ],
+          "AC5": [
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/outputs/cmd_5_verify_sh_preflight.stdout.txt",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/shim_stdout.txt",
+              "exists": true
+            }
+          ],
+          "AC6": [
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/step_result.json",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/shim_stdout.txt",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/subagent_output.md",
+              "exists": true
+            },
+            {
+              "path": ".artifacts/agent_runs/MVP-2_20260224T162739Z_ctrl/steps/S1/rounds/R1/logs/command.json",
+              "exists": true
+            }
+          ]
+        }
+      },
+      "verdict": "PASS",
+      "errors": []
+    }
+  ]
+}
