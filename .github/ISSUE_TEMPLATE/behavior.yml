@@ -25,3 +25,27 @@ body:
       description: Logs, artifact paths, run IDs, or screenshots.
     validations:
       required: false
+  - type: input
+    id: run_id
+    attributes:
+      label: Run ID
+      description: Controller run identifier (for example `MVP-3_...`).
+      placeholder: MVP-3_20260225T013546Z_ctrl
+    validations:
+      required: false
+  - type: input
+    id: step_pack_path
+    attributes:
+      label: StepPack Path
+      description: Contract / StepPack path used for the failing or reviewed execution.
+      placeholder: contracts/step_packs/MVP-3_S1.json
+    validations:
+      required: false
+  - type: input
+    id: failed_gate
+    attributes:
+      label: Failed Gate
+      description: Gate ID or gate summary if this is a QA failure report.
+      placeholder: G5 / AC4 content check
+    validations:
+      required: false

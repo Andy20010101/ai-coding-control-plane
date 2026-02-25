@@ -25,6 +25,16 @@ Use this template when a step fails QA and must be sent back for targeted rework
 python -m orchestrator dispatch-rework --rework-pack-file ./rework_pack.json
 ```
 
+## Reason Code
+
+- Worker / QA reason code:
+- Short reason summary:
+
+## Acceptance Criteria Snapshot
+
+- Quote failed acceptance criteria verbatim:
+- Quote any ambiguous acceptance text verbatim (if applicable):
+
 ## Scope Guard
 
 - Allowed paths:
