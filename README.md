@@ -15,6 +15,13 @@ Use this section as the S2 "Start Here" entry when onboarding or dispatching wor
 2. Dispatch a bounded StepPack.
 3. Require evidence-backed StepResult before accepting PASS.
 
+### S2 Execution Checklist
+
+1. Confirm the active StepPack scope and only edit `allowed_paths`.
+2. Run the required verification commands and store output evidence under `.artifacts/`.
+3. If QA returns `FAIL` or `REWORK`, route the step through a rework ticket before another acceptance attempt.
+4. Submit a StepResult with command records, `reason_code`, `changed_files`, and AC-to-evidence mapping.
+
 Reusable append-only logging module for AI workflow execution with strict `R/S`
 iteration protocol:
 

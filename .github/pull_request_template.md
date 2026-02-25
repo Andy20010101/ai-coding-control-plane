@@ -21,6 +21,13 @@
 
 - Allowed paths changed only: [ ] Yes [ ] No
 - Forbidden paths untouched: [ ] Yes [ ] No
+- Allowed paths (list):
+- Forbidden paths (list):
+
+## Change Order
+
+- Change Order required: [ ] No [ ] Yes
+- If yes, link request and approval:
 
 ## Notes
 
