@@ -1,0 +1,524 @@
+{
+  "task_kind": "step",
+  "task_id": "MVP-3",
+  "run_id": "MVP-3_20260225T013546Z_ctrl",
+  "step_id": "S1",
+  "step_title": "S2-aligned hardening of P0/templates/evo scaffolding (same 7-file scope)",
+  "step_description": "Harden the existing S2 scaffolding content (README Start Here guidance, issue/PR templates, rework ticket, orchestrator pack notes, and EVO docs) within the same seven S2 files. This StepPack keeps the MVP-2 S2 file scope and no-dependency policy, but raises content structure requirements to avoid a no-op rerun.",
+  "objective": "Provide Codex A with an auditable, bounded StepPack to upgrade the already-created S2 scaffolding from minimal placeholders to structured, review-ready content while preserving the existing S2 file scope and recording `scripts/verify.sh` preflight evidence.",
+  "phase": "Phase 1 (user-requested) / StepPack dispatch prep",
+  "step_pack_version": "1.0",
+  "controller_role": "Codex B Controller+Judge",
+  "source_of_s2_requirements": {
+    "type": "inference",
+    "source_path": "E:/Code/workflow/contracts/Contract-BOOTSTRAP.md",
+    "source_section": "S2 — Add P0 + templates + evo scaffolding (Claude 接入)",
+    "note": "No local `MVP-3` / `S2` specification text was found in `E:/Code/workflow__ctrl` at dispatch time. MVP-3 S1 is a hardening pass within the same S2 file scope."
+  },
+  "allowed_paths": [
+    "README.md",
+    ".github/ISSUE_TEMPLATE/behavior.yml",
+    ".github/pull_request_template.md",
+    "docs/workstream/rework_ticket.md",
+    "docs/workstream/orchestrator_pack.md",
+    "evo/00_index.md",
+    "evo/lessons.log"
+  ],
+  "forbidden_paths": [
+    ".artifacts/**",
+    "contracts/**",
+    "orchestrator/**",
+    "progress/**",
+    "tests/**",
+    "scripts/**",
+    ".github/workflows/**",
+    "pyproject.toml",
+    "requirements*.txt",
+    "poetry.lock",
+    "uv.lock",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "yarn.lock"
+  ],
+  "dependency_policy": {
+    "mode": "no-new-dependencies",
+    "allow_new_dependencies": false,
+    "allow_lockfile_changes": false,
+    "allow_dependency_manifest_changes": false,
+    "allow_ci_changes": false,
+    "change_order_required": [
+      "new dependency",
+      "lockfile or dependency manifest change",
+      "any scripts/** changes (including adding scripts/verify.sh)",
+      "any .github/workflows/** changes",
+      "expanding allowed_paths beyond the 7 S2 target files"
+    ]
+  },
+  "scope": {
+    "allowed_paths": [
+      "README.md",
+      ".github/ISSUE_TEMPLATE/behavior.yml",
+      ".github/pull_request_template.md",
+      "docs/workstream/rework_ticket.md",
+      "docs/workstream/orchestrator_pack.md",
+      "evo/00_index.md",
+      "evo/lessons.log"
+    ],
+    "forbidden_paths": [
+      ".artifacts/**",
+      "contracts/**",
+      "orchestrator/**",
+      "progress/**",
+      "tests/**",
+      "scripts/**",
+      ".github/workflows/**",
+      "pyproject.toml",
+      "requirements*.txt",
+      "poetry.lock",
+      "uv.lock",
+      "package.json",
+      "package-lock.json",
+      "pnpm-lock.yaml",
+      "yarn.lock"
+    ],
+    "dependency_policy": {
+      "mode": "no-new-dependencies",
+      "allow_new_dependencies": false,
+      "allow_lockfile_changes": false,
+      "allow_dependency_manifest_changes": false,
+      "allow_ci_changes": false,
+      "change_order_required": [
+        "new dependency",
+        "lockfile or dependency manifest change",
+        "any scripts/** changes (including adding scripts/verify.sh)",
+        "any .github/workflows/** changes",
+        "expanding allowed_paths beyond the 7 S2 target files"
+      ]
+    }
+  },
+  "preconditions": [
+    {
+      "id": "P1_s2_gate_script",
+      "description": "S2 source contract gate is `./scripts/verify.sh contract`, but `scripts/verify.sh` is not present in this repo at dispatch time.",
+      "worker_instruction": "Record preflight evidence for script availability. Do not modify `scripts/**` in this step. If user wants S2 contract gate execution in this repo, request Change Order / prior step to add scripts.",
+      "controller_expected_if_missing": "S2 hardening AC can still pass for this StepPack; downstream full S2 gate remains blocked until scripts exist."
+    }
+  ],
+  "commands": [
+    "rg --files README.md .github docs/workstream evo",
+    "python -c '<required verification command from commands_to_run>'",
+    "git status --short",
+    "git diff --name-only",
+    "bash ./scripts/verify.sh contract  # optional: only if scripts/verify.sh exists and is executable",
+    "git add -- README.md .github/ISSUE_TEMPLATE/behavior.yml .github/pull_request_template.md docs/workstream/rework_ticket.md docs/workstream/orchestrator_pack.md evo/00_index.md evo/lessons.log",
+    "git add -f -- evo/lessons.log  # fallback only if ignored by .gitignore",
+    "git commit -m \"<cp-exec commit message>\""
+  ],
+  "commands_to_run": [
+    "python -c 'from pathlib import Path; req=[\"README.md\",\".github/ISSUE_TEMPLATE/behavior.yml\",\".github/pull_request_template.md\",\"docs/workstream/rework_ticket.md\",\"docs/workstream/orchestrator_pack.md\",\"evo/00_index.md\",\"evo/lessons.log\"]; missing=[p for p in req if not Path(p).exists()]; print({\"missing\": missing}); raise SystemExit(1 if missing else 0)'",
+    "python -c 'from pathlib import Path; t=Path(\"README.md\").read_text(encoding=\"utf-8\"); tl=t.lower(); need=[\"start here\",\"tier routing quick decision\",\"minimal success path\",\"s2 execution checklist\",\"rework ticket\",\".artifacts/\"]; ok=all(s in tl for s in need); print({\"path\":\"README.md\",\"ok\":ok,\"required\":need}); raise SystemExit(0 if ok else 1)'",
+    "python -c 'from pathlib import Path; t=Path(\".github/ISSUE_TEMPLATE/behavior.yml\").read_text(encoding=\"utf-8\").lower(); need=[\"name:\",\"description:\",\"body:\",\"id: observed\",\"id: expected\",\"id: evidence\",\"id: run_id\",\"id: step_pack_path\",\"id: failed_gate\"]; ok=all(s in t for s in need); print({\"path\":\".github/ISSUE_TEMPLATE/behavior.yml\",\"ok\":ok,\"required\":need}); raise SystemExit(0 if ok else 1)'",
+    "python -c 'from pathlib import Path; t=Path(\".github/pull_request_template.md\").read_text(encoding=\"utf-8\"); tl=t.lower(); need=[\"## run metadata\",\"run_id\",\"step id\",\"attempt id\",\"contract / steppack path\",\"gate summary path\",\"allowed paths\",\"forbidden paths\",\"change order\"]; ok=all(s in tl for s in need); print({\"path\":\".github/pull_request_template.md\",\"ok\":ok,\"required\":need}); raise SystemExit(0 if ok else 1)'",
+    "python -c 'from pathlib import Path; rw=Path(\"docs/workstream/rework_ticket.md\").read_text(encoding=\"utf-8\").lower(); op=Path(\"docs/workstream/orchestrator_pack.md\").read_text(encoding=\"utf-8\").lower(); need_rw=[\"## failed gate\",\"## missing evidence\",\"## minimal fix list\",\"## re-run command\",\"## reason code\",\"## acceptance criteria snapshot\"]; need_op=[\"fail\",\"rework ticket\",\"quote failed acceptance criteria verbatim\",\"re-run command\",\".artifacts\"]; ok_rw=all(s in rw for s in need_rw); ok_op=all(s in op for s in need_op); ok=(ok_rw and ok_op); print({\"rework_ticket\":ok_rw,\"orchestrator_pack\":ok_op,\"need_rw\":need_rw,\"need_op\":need_op}); raise SystemExit(0 if ok else 1)'",
+    "python -c 'from pathlib import Path; e0=Path(\"evo/00_index.md\").read_text(encoding=\"utf-8\").lower(); ll=Path(\"evo/lessons.log\").read_text(encoding=\"utf-8\"); need_e0=[\"evo index\",\"lessons.log\",\"append-only\",\"run/step entry format\"]; ok_e0=all(s in e0 for s in need_e0); lines=[ln.strip() for ln in ll.splitlines() if ln.strip() and not ln.strip().startswith(\"#\")]; ok_ll=any((\"MVP-3_20260225T013546Z_ctrl\" in ln and \"s1\" in ln.lower()) for ln in lines); print({\"evo_index\":ok_e0,\"lessons_line_for_run\":ok_ll,\"non_comment_lines\":len(lines),\"run_id\":\"MVP-3_20260225T013546Z_ctrl\"}); raise SystemExit(0 if (ok_e0 and ok_ll) else 1)'",
+    "python -c 'from pathlib import Path; p=Path(\"scripts/verify.sh\"); print({\"scripts_verify_sh_exists\": p.exists(), \"dispatch_note\": \"optional S2 gate preflight only\"})'",
+    "git status --short"
+  ],
+  "AC": [
+    "AC1: `README.md` is upgraded from minimal S2 placeholder to a structured S2 operator guide with `Start Here`, `Tier Routing Quick Decision`, `Minimal Success Path`, and a new `S2 Execution Checklist` section that references rework ticket and `.artifacts` evidence expectations.",
+    "AC2: `.github/ISSUE_TEMPLATE/behavior.yml` is hardened with execution metadata fields (`run_id`, `step_pack_path`, `failed_gate`) in addition to the existing observed/expected/evidence sections.",
+    "AC3: `.github/pull_request_template.md` includes a stronger S2 review checklist with explicit prompts for Run Metadata, Contract/StepPack path, Gate Summary path, Allowed/Forbidden paths, and Change Order declaration.",
+    "AC4: `docs/workstream/rework_ticket.md` and `docs/workstream/orchestrator_pack.md` are hardened so FAIL handling explicitly requires rework-ticket routing, quoted failed AC text (verbatim), reason code, re-run command, and `.artifacts` evidence references.",
+    "AC5: `evo/00_index.md` documents append-only run/step entry conventions and `evo/lessons.log` contains a non-comment lesson line that references this run (`MVP-3_20260225T013546Z_ctrl`) and `S1`.",
+    "AC6: S2 gate preflight evidence is captured by checking `scripts/verify.sh` availability without modifying `scripts/**` in this step (downstream full S2 gate execution remains separate if script is absent).",
+    "AC7: StepResult evidence is auditable (.artifacts paths, required command records, AC verification records) and all `files_changed` remain inside `allowed_paths` with no forbidden-path or dependency-policy violations."
+  ],
+  "gates": [
+    {
+      "gate_id": "G1",
+      "owner": "worker",
+      "type": "required_command_exit_0",
+      "target_ac": [
+        "AC1",
+        "AC2",
+        "AC3",
+        "AC4",
+        "AC5"
+      ],
+      "command_index": 0,
+      "pass_condition": "File existence check exits 0 with empty missing list."
+    },
+    {
+      "gate_id": "G2",
+      "owner": "worker",
+      "type": "required_command_exit_0",
+      "target_ac": [
+        "AC1"
+      ],
+      "command_index": 1,
+      "pass_condition": "README S2 hardening content check exits 0."
+    },
+    {
+      "gate_id": "G3",
+      "owner": "worker",
+      "type": "required_command_exit_0",
+      "target_ac": [
+        "AC2"
+      ],
+      "command_index": 2,
+      "pass_condition": "Issue template hardening content check exits 0."
+    },
+    {
+      "gate_id": "G4",
+      "owner": "worker",
+      "type": "required_command_exit_0",
+      "target_ac": [
+        "AC3"
+      ],
+      "command_index": 3,
+      "pass_condition": "PR template hardening content check exits 0."
+    },
+    {
+      "gate_id": "G5",
+      "owner": "worker",
+      "type": "required_command_exit_0",
+      "target_ac": [
+        "AC4"
+      ],
+      "command_index": 4,
+      "pass_condition": "Rework/orchestrator fail-routing hardening checks exit 0."
+    },
+    {
+      "gate_id": "G6",
+      "owner": "worker",
+      "type": "required_command_exit_0",
+      "target_ac": [
+        "AC5"
+      ],
+      "command_index": 5,
+      "pass_condition": "EVO index + lessons.log run-tag entry checks exit 0."
+    },
+    {
+      "gate_id": "G7",
+      "owner": "worker",
+      "type": "required_command_evidence_only",
+      "target_ac": [
+        "AC6"
+      ],
+      "command_index": 6,
+      "pass_condition": "Preflight command executed and script availability status is visible in command output evidence."
+    },
+    {
+      "gate_id": "G8",
+      "owner": "controller",
+      "type": "qa_scope_guard_review",
+      "target_ac": [
+        "AC7"
+      ],
+      "pass_condition": "step_result.files_changed all match allowed_paths and none match forbidden_paths."
+    },
+    {
+      "gate_id": "G9",
+      "owner": "controller",
+      "type": "qa_evidence_review",
+      "target_ac": [
+        "AC7"
+      ],
+      "pass_condition": "step_result.commands_executed and verification_results evidence_path values are under .artifacts/agent_runs/ and evidence_required files exist."
+    }
+  ],
+  "evidence_required": [
+    {
+      "id": "E1_step_result",
+      "path_pattern": ".artifacts/agent_runs/MVP-3_20260225T013546Z_ctrl/steps/S1/rounds/R*/step_result.json",
+      "required_for": [
+        "AC7"
+      ],
+      "notes": "Canonical worker result payload for controller QA review."
+    },
+    {
+      "id": "E2_shim_stdout",
+      "path_pattern": ".artifacts/agent_runs/MVP-3_20260225T013546Z_ctrl/steps/S1/rounds/R*/shim_stdout.txt",
+      "required_for": [
+        "AC1",
+        "AC2",
+        "AC3",
+        "AC4",
+        "AC5",
+        "AC6",
+        "AC7"
+      ],
+      "notes": "Required command output evidence (including scripts/verify.sh preflight output) may point here."
+    },
+    {
+      "id": "E3_subagent_output",
+      "path_pattern": ".artifacts/agent_runs/MVP-3_20260225T013546Z_ctrl/steps/S1/rounds/R*/subagent_output.md",
+      "required_for": [
+        "AC1",
+        "AC2",
+        "AC3",
+        "AC4",
+        "AC5",
+        "AC6",
+        "AC7"
+      ],
+      "notes": "Worker summary with changed files, AC mapping, and any S2 precondition/blocker note."
+    },
+    {
+      "id": "E4_command_records",
+      "path_pattern": "step_result.json::commands_executed[*]",
+      "required_for": [
+        "AC7"
+      ],
+      "notes": "Must include command, exit_code, evidence_path for every commands_to_run entry."
+    },
+    {
+      "id": "E5_verification_records",
+      "path_pattern": "step_result.json::verification_results[*]",
+      "required_for": [
+        "AC7"
+      ],
+      "notes": "Must cover every AC string exactly. For PASS, all relevant ACs must be met."
+    }
+  ],
+  "acceptance": {
+    "AC": [
+      "AC1: `README.md` is upgraded from minimal S2 placeholder to a structured S2 operator guide with `Start Here`, `Tier Routing Quick Decision`, `Minimal Success Path`, and a new `S2 Execution Checklist` section that references rework ticket and `.artifacts` evidence expectations.",
+      "AC2: `.github/ISSUE_TEMPLATE/behavior.yml` is hardened with execution metadata fields (`run_id`, `step_pack_path`, `failed_gate`) in addition to the existing observed/expected/evidence sections.",
+      "AC3: `.github/pull_request_template.md` includes a stronger S2 review checklist with explicit prompts for Run Metadata, Contract/StepPack path, Gate Summary path, Allowed/Forbidden paths, and Change Order declaration.",
+      "AC4: `docs/workstream/rework_ticket.md` and `docs/workstream/orchestrator_pack.md` are hardened so FAIL handling explicitly requires rework-ticket routing, quoted failed AC text (verbatim), reason code, re-run command, and `.artifacts` evidence references.",
+      "AC5: `evo/00_index.md` documents append-only run/step entry conventions and `evo/lessons.log` contains a non-comment lesson line that references this run (`MVP-3_20260225T013546Z_ctrl`) and `S1`.",
+      "AC6: S2 gate preflight evidence is captured by checking `scripts/verify.sh` availability without modifying `scripts/**` in this step (downstream full S2 gate execution remains separate if script is absent).",
+      "AC7: StepResult evidence is auditable (.artifacts paths, required command records, AC verification records) and all `files_changed` remain inside `allowed_paths` with no forbidden-path or dependency-policy violations."
+    ],
+    "gates": [
+      {
+        "gate_id": "G1",
+        "owner": "worker",
+        "type": "required_command_exit_0",
+        "target_ac": [
+          "AC1",
+          "AC2",
+          "AC3",
+          "AC4",
+          "AC5"
+        ],
+        "command_index": 0,
+        "pass_condition": "File existence check exits 0 with empty missing list."
+      },
+      {
+        "gate_id": "G2",
+        "owner": "worker",
+        "type": "required_command_exit_0",
+        "target_ac": [
+          "AC1"
+        ],
+        "command_index": 1,
+        "pass_condition": "README S2 hardening content check exits 0."
+      },
+      {
+        "gate_id": "G3",
+        "owner": "worker",
+        "type": "required_command_exit_0",
+        "target_ac": [
+          "AC2"
+        ],
+        "command_index": 2,
+        "pass_condition": "Issue template hardening content check exits 0."
+      },
+      {
+        "gate_id": "G4",
+        "owner": "worker",
+        "type": "required_command_exit_0",
+        "target_ac": [
+          "AC3"
+        ],
+        "command_index": 3,
+        "pass_condition": "PR template hardening content check exits 0."
+      },
+      {
+        "gate_id": "G5",
+        "owner": "worker",
+        "type": "required_command_exit_0",
+        "target_ac": [
+          "AC4"
+        ],
+        "command_index": 4,
+        "pass_condition": "Rework/orchestrator fail-routing hardening checks exit 0."
+      },
+      {
+        "gate_id": "G6",
+        "owner": "worker",
+        "type": "required_command_exit_0",
+        "target_ac": [
+          "AC5"
+        ],
+        "command_index": 5,
+        "pass_condition": "EVO index + lessons.log run-tag entry checks exit 0."
+      },
+      {
+        "gate_id": "G7",
+        "owner": "worker",
+        "type": "required_command_evidence_only",
+        "target_ac": [
+          "AC6"
+        ],
+        "command_index": 6,
+        "pass_condition": "Preflight command executed and script availability status is visible in command output evidence."
+      },
+      {
+        "gate_id": "G8",
+        "owner": "controller",
+        "type": "qa_scope_guard_review",
+        "target_ac": [
+          "AC7"
+        ],
+        "pass_condition": "step_result.files_changed all match allowed_paths and none match forbidden_paths."
+      },
+      {
+        "gate_id": "G9",
+        "owner": "controller",
+        "type": "qa_evidence_review",
+        "target_ac": [
+          "AC7"
+        ],
+        "pass_condition": "step_result.commands_executed and verification_results evidence_path values are under .artifacts/agent_runs/ and evidence_required files exist."
+      }
+    ],
+    "evidence_required": [
+      {
+        "id": "E1_step_result",
+        "path_pattern": ".artifacts/agent_runs/MVP-3_20260225T013546Z_ctrl/steps/S1/rounds/R*/step_result.json",
+        "required_for": [
+          "AC7"
+        ],
+        "notes": "Canonical worker result payload for controller QA review."
+      },
+      {
+        "id": "E2_shim_stdout",
+        "path_pattern": ".artifacts/agent_runs/MVP-3_20260225T013546Z_ctrl/steps/S1/rounds/R*/shim_stdout.txt",
+        "required_for": [
+          "AC1",
+          "AC2",
+          "AC3",
+          "AC4",
+          "AC5",
+          "AC6",
+          "AC7"
+        ],
+        "notes": "Required command output evidence (including scripts/verify.sh preflight output) may point here."
+      },
+      {
+        "id": "E3_subagent_output",
+        "path_pattern": ".artifacts/agent_runs/MVP-3_20260225T013546Z_ctrl/steps/S1/rounds/R*/subagent_output.md",
+        "required_for": [
+          "AC1",
+          "AC2",
+          "AC3",
+          "AC4",
+          "AC5",
+          "AC6",
+          "AC7"
+        ],
+        "notes": "Worker summary with changed files, AC mapping, and any S2 precondition/blocker note."
+      },
+      {
+        "id": "E4_command_records",
+        "path_pattern": "step_result.json::commands_executed[*]",
+        "required_for": [
+          "AC7"
+        ],
+        "notes": "Must include command, exit_code, evidence_path for every commands_to_run entry."
+      },
+      {
+        "id": "E5_verification_records",
+        "path_pattern": "step_result.json::verification_results[*]",
+        "required_for": [
+          "AC7"
+        ],
+        "notes": "Must cover every AC string exactly. For PASS, all relevant ACs must be met."
+      }
+    ]
+  },
+  "runtime_policy": {
+    "timeout_sec": 3600,
+    "no_output_timeout_sec": 1200,
+    "retry": {
+      "max_attempts": 2,
+      "retry_on": [
+        "COMMAND_FAILED",
+        "AC_NOT_MET"
+      ],
+      "requires_rework_pack_after_failed_attempts": true
+    },
+    "autonomy_level": "L1",
+    "boundary_level": "B1"
+  },
+  "acceptance_criteria": [
+    "AC1: `README.md` is upgraded from minimal S2 placeholder to a structured S2 operator guide with `Start Here`, `Tier Routing Quick Decision`, `Minimal Success Path`, and a new `S2 Execution Checklist` section that references rework ticket and `.artifacts` evidence expectations.",
+    "AC2: `.github/ISSUE_TEMPLATE/behavior.yml` is hardened with execution metadata fields (`run_id`, `step_pack_path`, `failed_gate`) in addition to the existing observed/expected/evidence sections.",
+    "AC3: `.github/pull_request_template.md` includes a stronger S2 review checklist with explicit prompts for Run Metadata, Contract/StepPack path, Gate Summary path, Allowed/Forbidden paths, and Change Order declaration.",
+    "AC4: `docs/workstream/rework_ticket.md` and `docs/workstream/orchestrator_pack.md` are hardened so FAIL handling explicitly requires rework-ticket routing, quoted failed AC text (verbatim), reason code, re-run command, and `.artifacts` evidence references.",
+    "AC5: `evo/00_index.md` documents append-only run/step entry conventions and `evo/lessons.log` contains a non-comment lesson line that references this run (`MVP-3_20260225T013546Z_ctrl`) and `S1`.",
+    "AC6: S2 gate preflight evidence is captured by checking `scripts/verify.sh` availability without modifying `scripts/**` in this step (downstream full S2 gate execution remains separate if script is absent).",
+    "AC7: StepResult evidence is auditable (.artifacts paths, required command records, AC verification records) and all `files_changed` remain inside `allowed_paths` with no forbidden-path or dependency-policy violations."
+  ],
+  "scope_guard": {
+    "allowed_paths": [
+      "README.md",
+      ".github/ISSUE_TEMPLATE/behavior.yml",
+      ".github/pull_request_template.md",
+      "docs/workstream/rework_ticket.md",
+      "docs/workstream/orchestrator_pack.md",
+      "evo/00_index.md",
+      "evo/lessons.log"
+    ],
+    "forbidden_paths": [
+      ".artifacts/**",
+      "contracts/**",
+      "orchestrator/**",
+      "progress/**",
+      "tests/**",
+      "scripts/**",
+      ".github/workflows/**",
+      "pyproject.toml",
+      "requirements*.txt",
+      "poetry.lock",
+      "uv.lock",
+      "package.json",
+      "package-lock.json",
+      "pnpm-lock.yaml",
+      "yarn.lock"
+    ]
+  },
+  "expected_outputs": [
+    "S2-aligned hardening updates in the same 7 target files only (no scope expansion)",
+    "`evo/lessons.log` contains a non-comment lesson line referencing MVP-3_20260225T013546Z_ctrl and S1",
+    "No dependency, lockfile, scripts/**, or CI workflow changes",
+    "StepResult package with auditable evidence under .artifacts/agent_runs/MVP-3_20260225T013546Z_ctrl/steps/S1/rounds/R*/"
+  ],
+  "evidence_requirement": "For each required command and each AC provide command/criteria, exit_code or met flag, and evidence_path under .artifacts/agent_runs/MVP-3_20260225T013546Z_ctrl/steps/S1/rounds/R*/. Include scripts/verify.sh preflight command output evidence even if script is absent.",
+  "context": {
+    "run_dir": ".artifacts/agent_runs/MVP-3_20260225T013546Z_ctrl",
+    "controller_worktree": "E:/Code/workflow__ctrl",
+    "controller_branch": "cp-ctrl",
+    "controller_head": "3ea5a4e",
+    "target_exec_branch": "cp-exec",
+    "source_instructions": [
+      "CODEX_B_CONTROLLER_JUDGE.md"
+    ],
+    "dispatch_time_observations": {
+      "local_mvp3_s2_spec_found": false,
+      "scripts_verify_sh_exists": false,
+      "mvp2_s2_minimal_scaffolding_already_present": true
+    }
+  },
+  "allowed_actions": [
+    "create or update only the 7 allowed target files",
+    "create parent directories required for allowed target files",
+    "append one new lessons.log line for this run_id within allowed path",
+    "run commands listed in commands/commands_to_run",
+    "stage and commit changes on execution branch"
+  ]
+}
